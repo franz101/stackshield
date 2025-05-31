@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureLend | Stop Loan Stacking Fraud Instantly</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    // Custom color palette removed to use Tailwind's default palette (slate, teal, blue, etc.) directly
+                    // and the specific tokens provided.
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        title: ['Poppins', 'sans-serif']
+                    },
+                    opacity: { // Added for finer control for the data privacy guarantee transparency
+                        '3': '0.03',
+                        '5': '0.05',
+                        '7': '0.07',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth; /* Apply smooth scroll globally, JS can override/enhance */
+        }
+        .hero-gradient {
+            /* Updated to use Slate and Teal from the new palette */
+            background: linear-gradient(135deg, #0F172A 0%, #0D9488 100%); /* slate-900 to teal-600 */
+        }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+        .data-flow {
+            /* Updated to use Slate and Teal from the new palette */
+            background: linear-gradient(90deg, #0F172A 0%, #0D9488 40%, #0F766E 60%, #0F172A 100%); /* slate-900, teal-600, teal-700, slate-900 */
+            background-size: 200% 100%;
+            animation: flow 5s linear infinite;
+        }
+        @keyframes flow {
+            0% { background-position: 100% 0; }
+            100% { background-position: -100% 0; }
+        }
+        .secure-badge {
+            position: relative;
+            overflow: hidden;
+        }
+        .secure-badge::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 30px;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.15);
+            transform: rotate(25deg);
+            animation: shine 3s infinite;
+        }
+        @keyframes shine {
+            0% { left: -60%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-700 bg-slate-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md fixed w-full z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center">
+                        <div class="bg-teal-600 w-10 h-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-xl"></i>
+                        </div>
+                        <span class="ml-3 text-2xl font-bold text-slate-800">Secure<span class="text-teal-600">Lend</span></span>
+                    </a>
+                    <div class="hidden md:ml-10 md:flex md:space-x-8">
+                        <a href="#" class="text-teal-600 border-b-2 border-teal-600 px-1 pt-1 text-sm font-medium">Home</a>
+                        <a href="#features" class="text-slate-500 hover:text-slate-700 border-transparent border-b-2 hover:border-slate-300 px-1 pt-1 text-sm font-medium">Features</a>
+                        <a href="#how-it-works" class="text-slate-500 hover:text-slate-700 border-transparent border-b-2 hover:border-slate-300 px-1 pt-1 text-sm font-medium">How It Works</a>
+                        <a href="#pricing" class="text-slate-500 hover:text-slate-700 border-transparent border-b-2 hover:border-slate-300 px-1 pt-1 text-sm font-medium">Pricing</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <a href="#" class="text-slate-500 hover:text-slate-700 px-3 py-2 text-sm font-medium">Sign In</a>
+                    <a href="#" class="ml-3 bg-teal-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-teal-700 transition">Get Started</a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" class="text-slate-500 hover:text-slate-700" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white shadow-lg">
+                <a href="#" class="text-teal-600 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#features" class="text-slate-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">Features</a>
+                <a href="#how-it-works" class="text-slate-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">How It Works</a>
+                <a href="#pricing" class="text-slate-700 hover:text-teal-600 block px-3 py-2 rounded-md text-base font-medium">Pricing</a>
+                <div class="border-t border-slate-200 pt-4 flex flex-col space-y-3">
+                    <a href="#" class="bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-center font-medium hover:bg-slate-200 transition">Sign In</a>
+                    <a href="#" class="bg-teal-600 text-white px-4 py-2 rounded-lg text-center font-medium hover:bg-teal-700 transition">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="pt-20">
+        <div class="hero-gradient text-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <span class="secure-badge bg-white text-teal-600 text-sm font-bold py-1 px-4 rounded-full inline-flex items-center mb-4">
+                            <i class="fas fa-shield-alt mr-2"></i> BANK-GRADE SECURITY
+                        </span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-title font-extrabold leading-tight">
+                            Stop Duplicate Lending Risks <span class="text-teal-300">Instantly</span>
+                        </h1>
+                        <p class="mt-6 text-xl text-slate-100 max-w-3xl">
+                            Detect concurrent credit requests across institutions by submitting a secure hash of applicant identifiers. 
+                            Confidently avoid overextending borrowers who are shopping multiple loans simultaneously.
+                        </p>
+                        <div class="mt-10 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                            <a href="#" class="bg-teal-600 hover:bg-teal-700 text-white py-4 px-8 rounded-xl font-bold text-lg text-center transition">
+                                <i class="fas fa-lock mr-2"></i> Secure Your Institution
+                            </a>
+                            <a href="#how-it-works" class="bg-white text-teal-600 hover:bg-teal-50 py-4 px-8 rounded-xl font-bold text-lg text-center transition">
+                                <i class="fas fa-play-circle mr-2"></i> See How It Works
+                            </a>
+                        </div>
+                        <div class="mt-8 flex flex-wrap gap-4">
+                            <div class="flex items-center text-slate-100">
+                                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                <span>No sensitive data exposure</span>
+                            </div>
+                            <div class="flex items-center text-slate-100">
+                                <i class="fas fa-check-circle text-green-400 mr-2"></i>
+                                <span>Real-time detection</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">Loan Stacking Detection System</h3>
+                                    <div class="h-1 w-16 bg-teal-500 mt-2 rounded-full"></div>
+                                </div>
+                                <div class="bg-teal-600 w-12 h-12 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-shield-alt text-white text-xl"></i>
+                                </div>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <div class="data-flow h-2 rounded-full mb-8"></div>
+                                
+                                <div class="bg-slate-700 rounded-xl p-4">
+                                    <div class="flex items-center">
+                                        <div class="bg-teal-600 w-10 h-10 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-fingerprint text-white"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-white">Secure Hash Input</h4>
+                                            <p class="text-sm text-slate-300">Submit encrypted applicant identifiers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-center my-2">
+                                    <i class="fas fa-long-arrow-alt-down text-xl text-teal-400"></i>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-xl p-4">
+                                    <div class="flex items-center">
+                                        <div class="bg-teal-500 w-10 h-10 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-network-wired text-white"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-white">Cross-Institution Analysis</h4>
+                                            <p class="text-sm text-slate-300">Check against lending activity database</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-center my-2">
+                                    <i class="fas fa-long-arrow-alt-down text-xl text-teal-400"></i>
+                                </div>
+                                
+                                <div class="bg-slate-700 rounded-xl p-4">
+                                    <div class="flex items-center">
+                                        <div class="bg-green-500 w-10 h-10 rounded-lg flex items-center justify-center">
+                                            <i class="fas fa-bell text-white"></i>
+                                        </div>
+                                        <div class="ml-4">
+                                            <h4 class="font-bold text-white">Real-time Alert</h4>
+                                            <p class="text-sm text-slate-300">Immediate notification of concurrent applications</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Toast Notification: Initially hidden, text changed -->
+                        <div id="fraud-toast" class="absolute -bottom-6 -right-6 bg-white shadow-xl rounded-lg p-4 hidden">
+                            <div class="flex">
+                                <div class="bg-red-100 text-red-600 w-10 h-10 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="font-bold text-sm text-slate-800">Fraud Detected</p>
+                                    <p class="text-xs text-slate-500">Recent application at 2 other institutions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-teal-600">97%</div>
+                    <div class="text-slate-600 mt-2">Detection Accuracy</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-teal-600">0.2s</div>
+                    <div class="text-slate-600 mt-2">Average Response Time</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-teal-600">250+</div>
+                    <div class="text-slate-600 mt-2">Financial Institutions</div>
+                </div>
+                <div class="p-6">
+                    <div class="text-4xl font-bold text-teal-600">$4.7B+</div>
+                    <div class="text-slate-600 mt-2">Fraud Prevented</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div id="features" class="py-20 bg-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-title font-bold text-slate-800">
+                    Protect Your Institution From Loan Stacking
+                </h2>
+                <p class="mt-4 text-xl text-slate-600">
+                    Our unique approach to fraud detection ensures maximum security and effectiveness
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10 mt-16">
+                <div class="feature-card bg-white rounded-2xl shadow-lg p-8 border-t-4 border-teal-600">
+                    <div class="text-teal-600 text-4xl mb-4">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Privacy-First Approach</h3>
+                    <p class="mt-4 text-slate-600">
+                        We never store or access actual PII. Our secure hashing algorithm converts identifiers into encrypted tokens that cannot be reverse-engineered.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white rounded-2xl shadow-lg p-8 border-t-4 border-green-500">
+                    <div class="text-green-500 text-4xl mb-4">
+                        <i class="fas fa-globe-americas"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Industry-Wide Coverage</h3>
+                    <p class="mt-4 text-slate-600">
+                        Access detection capabilities across hundreds of financial institutions. The more partners, the stronger the protection against fraud.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white rounded-2xl shadow-lg p-8 border-t-4 border-teal-400"> <!-- Was secondary -->
+                    <div class="text-teal-400 text-4xl mb-4">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Real-Time Detection</h3>
+                    <p class="mt-4 text-slate-600">
+                        Receive instant notifications during the application process, allowing you to make informed lending decisions within seconds.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white rounded-2xl shadow-lg p-8 border-t-4 border-slate-500">
+                    <div class="text-slate-500 text-4xl mb-4">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Seamless Integration</h3>
+                    <p class="mt-4 text-slate-600">
+                        Easily implement with your existing systems using our robust API. We support all major lending platforms with minimal development effort.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white rounded-2xl shadow-lg p-8 border-t-4 border-blue-500"> <!-- Was purple -->
+                    <div class="text-blue-500 text-4xl mb-4">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Reduced Risk Exposure</h3>
+                    <p class="mt-4 text-slate-600">
+                        Prevent losses from defaulted stacked loans. Our clients reduce fraud-related charge-offs by an average of 63% in the first year.
+                    </p>
+                </div>
+                
+                <div class="feature-card bg-white rounded-2xl shadow-lg p-8 border-t-4 border-yellow-500">
+                    <div class="text-yellow-500 text-4xl mb-4">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-800">Regulatory Compliance</h3>
+                    <p class="mt-4 text-slate-600">
+                        Our solution helps satisfy fair lending requirements while maintaining full compliance with GDPR, CCPA, and financial regulations.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How It Works Section -->
+    <div id="how-it-works" class="py-20 bg-gradient-to-br from-teal-50 to-slate-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-title font-bold text-slate-800">
+                    How Our Fraud Detection Works
+                </h2>
+                <p class="mt-4 text-xl text-slate-600">
+                    Secure, privacy-preserving technology that protects all stakeholders
+                </p>
+            </div>
+            
+            <div class="mt-16 flex flex-col items-center">
+                <div class="flex flex-col md:flex-row items-center justify-between max-w-5xl w-full">
+                    <div class="md:w-5/12 md:text-right md:pr-12">
+                        <div class="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl mb-4 mx-auto md:ml-auto md:mr-0">
+                            1
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">Applicant Data Hashing</h3>
+                        <p class="mt-4 text-slate-600">
+                            When a loan application is submitted, your system generates a unique cryptographic hash of key identifiers (name, DOB, ID numbers). Actual PII never leaves your environment.
+                        </p>
+                    </div>
+                    <div class="mt-10 md:mt-0 md:w-2/12 flex justify-center">
+                        <div class="rounded-full w-20 h-20 bg-teal-400 flex items-center justify-center">
+                            <i class="fas fa-exchange-alt text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="md:w-5/12 md:text-left md:pl-12 mt-10 md:mt-0">
+                        <div class="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl mb-4 mx-auto md:mx-0">
+                            2
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">Secure Database Query</h3>
+                        <p class="mt-4 text-slate-600">
+                            The encrypted hash is sent securely to our system, where we check against our consortium database of recent applications from participating financial institutions.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="h-20 flex items-center justify-center">
+                    <i class="fas fa-long-arrow-alt-down text-teal-400 text-3xl"></i>
+                </div>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between max-w-5xl w-full mt-0">
+                    <div class="md:w-5/12 md:text-right md:pr-12">
+                        <div class="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl mb-4 mx-auto md:ml-auto md:mr-0">
+                            3
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">Matching Algorithm</h3>
+                        <p class="mt-4 text-slate-600">
+                            Our proprietary matching technology identifies if similar hashes have been submitted recently. The algorithm accounts for variations while preventing false positives.
+                        </p>
+                    </div>
+                    <div class="mt-10 md:mt-0 md:w-2/12 flex justify-center">
+                        <div class="rounded-full w-20 h-20 bg-teal-400 flex items-center justify-center">
+                            <i class="fas fa-robot text-white text-3xl"></i>
+                        </div>
+                    </div>
+                    <div class="md:w-5/12 md:text-left md:pl-12 mt-10 md:mt-0">
+                        <div class="bg-teal-600 w-16 h-16 rounded-lg flex items-center justify-center text-white text-2xl mb-4 mx-auto md:mx-0">
+                            4
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-800">Instant Risk Assessment</h3>
+                        <p class="mt-4 text-slate-600">
+                            Within milliseconds, we return a confidence score indicating potential loan stacking. Your team receives actionable insights without exposing sensitive data.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20 bg-white rounded-2xl shadow-xl overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2">
+                    <div class="p-12">
+                        <h3 class="text-2xl font-bold text-slate-800">Secure Data Exchange</h3>
+                        <p class="mt-4 text-slate-600">
+                            Our technology ensures that no sensitive applicant data is ever exposed or centralized. 
+                            This privacy-preserving approach meets the highest security standards while providing powerful fraud protection.
+                        </p>
+                        <ul class="mt-6 space-y-3">
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span class="text-slate-600">End-to-end encryption with zero data persistence</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span class="text-slate-600">FIPS 140-2 validated cryptographic modules</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span class="text-slate-600">SOC 2 Type II certified infrastructure</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Data Privacy Guarantee: Styling updated for transparency and background feel -->
+                    <div class="bg-slate-50 p-12 flex items-center justify-center">
+                        <div class="relative">
+                            <div class="absolute inset-0 bg-slate-400 rounded-full opacity-5"></div> 
+                            <div class="absolute inset-4 bg-slate-400 rounded-full opacity-7"></div>
+                            <div class="bg-slate-100 rounded-full w-56 h-56 flex items-center justify-center relative z-10">
+                                <div class="text-center text-slate-700">
+                                    <div class="text-4xl font-bold">100%</div>
+                                    <div class="mt-2">Data Privacy Guarantee</div>
+                                </div>
+                            </div>
+                            <div class="absolute -top-6 -right-6 bg-white rounded-lg shadow-lg p-4 w-32">
+                                <div class="flex">
+                                    <div class="bg-green-100 w-8 h-8 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-lock text-green-600"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="font-bold text-xs text-slate-700">Secure Hash</div>
+                                        <div class="text-slate-500 text-xs">SHA-384</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute -bottom-6 -left-6 bg-white rounded-lg shadow-lg p-4 w-32">
+                                <div class="flex">
+                                    <div class="bg-blue-100 w-8 h-8 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-database text-blue-600"></i>
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="font-bold text-xs text-slate-700">No PII Stored</div>
+                                        <div class="text-slate-500 text-xs">Encrypted Only</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pricing Section -->
+    <div id="pricing" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-title font-bold text-slate-800">
+                    Simple, Predictable Pricing
+                </h2>
+                <p class="mt-4 text-xl text-slate-600">
+                    Designed to protect institutions of all sizes without increasing your overhead
+                </p>
+            </div>
+            
+            <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200">
+                    <div class="bg-slate-100 p-8 text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Starter</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-slate-800">$299</span>
+                            <span class="text-slate-600">/month</span>
+                        </div>
+                        <p class="mt-2 text-slate-600">Ideal for credit unions & community banks</p>
+                    </div>
+                    <div class="p-8">
+                        <ul class="space-y-4 text-slate-600">
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Up to 500 queries/month</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Basic API integration</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Email support</span>
+                            </li>
+                            <li class="flex text-slate-400">
+                                <i class="fas fa-times-circle mt-1 mr-3"></i>
+                                <span>Advanced matching logic</span>
+                            </li>
+                            <li class="flex text-slate-400">
+                                <i class="fas fa-times-circle mt-1 mr-3"></i>
+                                <span>Dedicated account manager</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-8 block text-center bg-slate-200 text-slate-800 py-3 rounded-lg font-medium hover:bg-slate-300 transition">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-2xl overflow-hidden border-2 border-teal-600 shadow-xl relative">
+                    <div class="bg-teal-600 p-8 text-center">
+                        <span class="bg-yellow-500 text-white text-sm font-bold py-1 px-4 rounded-full">POPULAR</span>
+                        <h3 class="text-xl font-bold text-white mt-4">Professional</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-white">$899</span>
+                            <span class="text-teal-100">/month</span>
+                        </div>
+                        <p class="mt-2 text-teal-100">Perfect for regional financial institutions</p>
+                    </div>
+                    <div class="p-8">
+                        <ul class="space-y-4 text-slate-600">
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Up to 5,000 queries/month</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Advanced API + SDK options</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Priority support</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Advanced matching logic</span>
+                            </li>
+                            <li class="flex text-slate-400">
+                                <i class="fas fa-times-circle mt-1 mr-3"></i>
+                                <span>Dedicated account manager</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-8 block text-center bg-teal-600 text-white py-3 rounded-lg font-medium hover:bg-teal-700 transition">Get Started</a>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-2xl overflow-hidden border border-slate-200">
+                    <div class="bg-slate-100 p-8 text-center">
+                        <h3 class="text-xl font-bold text-slate-800">Enterprise</h3>
+                        <div class="mt-4">
+                            <span class="text-4xl font-bold text-slate-800">Custom</span>
+                        </div>
+                        <p class="mt-2 text-slate-600">For national banks & multi-lender platforms</p>
+                    </div>
+                    <div class="p-8">
+                        <ul class="space-y-4 text-slate-600">
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Unlimited queries</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Full white-label integration</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>24/7 dedicated support</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Custom matching logic</span>
+                            </li>
+                            <li class="flex">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                                <span>Dedicated account manager</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-8 block text-center bg-slate-200 text-slate-800 py-3 rounded-lg font-medium hover:bg-slate-300 transition">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-20 bg-teal-600 rounded-2xl shadow-xl p-12 text-white">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="text-5xl font-bold">90%</div>
+                        <div class="mt-2">reduction in first-year defaults</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold">12:1</div>
+                        <div class="mt-2">average ROI for clients</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl font-bold">10 min</div>
+                        <div class="mt-2">average implementation time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="py-20 hero-gradient"> <!-- Uses the same hero-gradient style -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl md:text-4xl font-title font-bold text-white">
+                        Ready to Eliminate Loan Stacking Fraud?
+                    </h2>
+                    <p class="mt-6 text-xl text-teal-100">
+                        Join hundreds of financial institutions protecting over $150 billion in assets. Start your free trial today.
+                    </p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-2xl p-8">
+                    <h3 class="text-xl font-bold text-slate-800 mb-6">Start Your Free Trial</h3>
+                    <form id="cta-form">
+                        <div class="space-y-4">
+                            <div>
+                                <label for="cta-full-name" class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                                <input type="text" id="cta-full-name" name="fullName" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label for="cta-business-email" class="block text-sm font-medium text-slate-700 mb-1">Business Email</label>
+                                <input type="email" id="cta-business-email" name="email" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label for="cta-financial-institution" class="block text-sm font-medium text-slate-700 mb-1">Financial Institution</label>
+                                <input type="text" id="cta-financial-institution" name="institution" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-teal-600 focus:outline-none" required>
+                            </div>
+                            <div class="pt-2">
+                                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-bold transition">
+                                    <i class="fas fa-lock mr-2"></i> Start Secure Trial
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="form-status-message" class="mt-4 text-sm"></div>
+                    <div class="mt-6 pt-4 border-t border-slate-200">
+                        <div class="flex items-center">
+                            <div class="bg-green-100 text-green-800 w-10 h-10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div class="ml-3 text-sm text-slate-600">
+                                <div>Your first 100 queries are free. No credit card required.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-200 py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                <div>
+                    <div class="flex items-center">
+                        <div class="bg-white w-10 h-10 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-teal-600 text-xl"></i>
+                        </div>
+                        <span class="ml-3 text-2xl font-bold text-white">Secure<span class="text-teal-600">Lend</span></span>
+                    </div>
+                    <p class="mt-4 text-slate-400">
+                        Protecting financial institutions from loan stacking fraud through privacy-preserving technology.
+                    </p>
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-slate-600 transition" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in text-slate-200"></i>
+                        </a>
+                        <a href="#" class="bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-slate-600 transition" aria-label="Twitter">
+                            <i class="fab fa-twitter text-slate-200"></i>
+                        </a>
+                        <a href="#" class="bg-slate-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-slate-600 transition" aria-label="Facebook">
+                            <i class="fab fa-facebook-f text-slate-200"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Home</a></li>
+                        <li><a href="#features" class="hover:text-white transition">Features</a></li>
+                        <li><a href="#how-it-works" class="hover:text-white transition">How It Works</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition">API Documentation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Resources</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition">Case Studies</a></li>
+                        <li><a href="#" class="hover:text-white transition">Industry Reports</a></li>
+                        <li><a href="#" class="hover:text-white transition">Fraud Prevention Guide</a></li>
+                        <li><a href="#" class="hover:text-white transition">Compliance Overview</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold text-white mb-4">Contact Us</h4>
+                    <ul class="space-y-3 text-slate-400">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-teal-500"></i>
+                            <span>123 Financial District, New York, NY 10001</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-teal-500"></i>
+                            <span>+1 (800) 555-1234</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-teal-500"></i>
+                            <span>support@securelend.com</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <a href="#" class="inline-flex items-center text-teal-400 font-medium hover:text-teal-300 transition">
+                            <i class="fas fa-file-alt mr-2"></i>
+                            Compliance & Security Documentation
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-slate-700 mt-16 pt-10 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-slate-500 text-sm">
+                    © 2023 SecureLend Technologies. All rights reserved.
+                </p>
+                <div class="flex space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-slate-500 hover:text-white text-sm">Privacy Policy</a>
+                    <a href="#" class="text-slate-500 hover:text-white text-sm">Terms of Service</a>
+                    <a href="#" class="text-slate-500 hover:text-white text-sm">GDPR</a>
+                    <a href="#" class="text-slate-500 hover:text-white text-sm">CCPA</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.setAttribute('aria-expanded', !mobileMenu.classList.contains('hidden'));
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    const isExpanded = !mobileMenu.classList.contains('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', isExpanded.toString());
+                });
+            }
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    let targetElement = null;
+
+                    if (href.length > 1 && href.startsWith("#")) {
+                        try {
+                            targetElement = document.querySelector(href);
+                        } catch (error) {
+                            console.error("Invalid selector for smooth scroll:", href, error);
+                            return; 
+                        }
+                    }
+
+                    if (href === "#" || targetElement) {
+                        e.preventDefault(); 
+
+                        if (href === "#") { 
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        } else if (targetElement) { 
+                            const navHeight = document.querySelector('nav')?.offsetHeight || 80; 
+                            window.scrollTo({
+                                top: targetElement.offsetTop - navHeight,
+                                behavior: 'smooth'
+                            });
+                        }
+                        
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                            if (mobileMenuButton) {
+                                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Toast notification: Show after 6 seconds
+            setTimeout(() => {
+                const toast = document.getElementById('fraud-toast');
+                if (toast) {
+                    toast.classList.remove('hidden');
+                    // Optional: Add an animation class here if desired
+                    // toast.classList.add('animate-fade-in'); // Example
+                }
+            }, 6000);
+
+            // CTA Form Submission to Google Apps Script
+            const ctaForm = document.getElementById('cta-form');
+            const formStatusMessage = document.getElementById('form-status-message');
+
+            if (ctaForm) {
+                ctaForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    const submitButton = ctaForm.querySelector('button[type="submit"]');
+                    const originalButtonHtml = submitButton.innerHTML;
+
+                    const formData = new FormData(ctaForm);
+                    const data = {};
+                    formData.forEach((value, key) => {
+                        data[key] = value;
+                    });
+                    
+                    submitButton.disabled = true;
+                    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Submitting...';
+                    if(formStatusMessage) formStatusMessage.textContent = '';
+
+
+                    fetch('https://script.google.com/macros/s/AKfycbwVj-S9uFT66ZCwpUSsdHKXlmagwsMtrgAjFCHjwgG3cUUW7Git-TpldZvqJ_vi39U/exec', {
+                        method: 'POST',
+                        // Google Apps Script with `doPost(e)` can receive form data directly (application/x-www-form-urlencoded)
+                        // or JSON. Sending as JSON as requested.
+                        // If the Apps Script is not set up for CORS and to handle 'application/json' content type, this might need adjustment.
+                        // For simple POSTs, Google Scripts often expect 'application/x-www-form-urlencoded'.
+                        // However, if you control the Apps Script, you can parse e.postData.contents for JSON.
+                        headers: {
+                           'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    })
+                    .then(response => {
+                        // Google Apps Script often returns 302 redirect or HTML content.
+                        // response.ok might be false for redirects if not handled with redirect: 'follow' (default for fetch).
+                        // A simple check for successful dispatch.
+                        if (response.ok || response.redirected || response.type === 'opaque' || (response.status >= 200 && response.status < 300) ) {
+                            ctaForm.reset();
+                            submitButton.innerHTML = '<i class="fas fa-check mr-2"></i> Submitted!';
+                            if(formStatusMessage) {
+                                formStatusMessage.textContent = 'Thank you! Your submission was successful.';
+                                formStatusMessage.className = 'mt-4 text-sm text-green-600';
+                            }
+                        } else {
+                             // Try to get error message if possible (may not be for CORS issues)
+                            return response.text().then(text => { throw new Error(`Submission failed: ${response.status} ${response.statusText}. ${text}`) });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting form:', error);
+                        submitButton.innerHTML = '<i class="fas fa-exclamation-triangle mr-2"></i> Submission Error';
+                        if(formStatusMessage) {
+                            formStatusMessage.textContent = 'Sorry, there was an error submitting your form. Please try again.';
+                            formStatusMessage.className = 'mt-4 text-sm text-red-600';
+                        }
+                    })
+                    .finally(() => {
+                        // Re-enable button after a delay, unless it was a success and we want it to stay "Submitted!"
+                        // For this example, let's revert after a few seconds regardless to allow another submission attempt on error.
+                        setTimeout(() => {
+                            if (submitButton.innerHTML.includes('fa-spinner') || submitButton.innerHTML.includes('fa-exclamation-triangle')) {
+                                // Only revert if it's still in processing or error state
+                                submitButton.disabled = false;
+                                submitButton.innerHTML = originalButtonHtml;
+                            } else if (submitButton.innerHTML.includes('fa-check')) {
+                                // If success, revert after a longer period or based on user action
+                                setTimeout(() => {
+                                    submitButton.disabled = false;
+                                    submitButton.innerHTML = originalButtonHtml;
+                                    if(formStatusMessage) formStatusMessage.textContent = '';
+                                }, 5000); // Keep "Submitted!" for 5s
+                            }
+                        }, 3000);
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
